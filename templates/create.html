@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>A tiny form to get the meteo based on latitude and longitude</h1>
+{% for message in get_flashed_messages() %}
+<div class="alert">{{ message }}</div>
+{% endfor %}
+<form method="post">
+    <label for="lat">Latitude : </label>
+    <br>
+    <input type="text" id="lat" name="lat"
+           placeholder="Type your latitude"
+           value="{{ request.form['lat'] }}">
+    <br>
+
+    <label for="long">Longitude :</label>
+    <br>
+    <input type="text" id="long" name="long"
+           placeholder="Type your longitude"
+           value="{{ request.form['long'] }}">
+    <br>
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>
