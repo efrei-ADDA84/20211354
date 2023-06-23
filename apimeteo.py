@@ -48,5 +48,5 @@ def weather():
 
 if __name__ == "__main__":
     api_key = os.environ['API_KEY']
-    app.run(host = '0.0.0.0')
+    app.run(host = '0.0.0.0', port = 8081)
     
