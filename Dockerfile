@@ -16,4 +16,4 @@ COPY apimeteo.py /app
 
 EXPOSE 5000
 
-CMD [ "python", "apimeteo.py" ]
+CMD [ "python", "apimeteo.py"]
