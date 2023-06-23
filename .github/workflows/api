@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - TP2
+      - main
 
 env:
   DOCKER_HUB_USERNAME: kev74
