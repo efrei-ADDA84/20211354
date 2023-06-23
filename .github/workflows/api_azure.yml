@@ -1,0 +1,50 @@
+name: Azure_API
+
+on:
+  push:
+    branches:
+      - TP3 
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        
+      - name: Check Dockerfile syntax
+        uses: hadolint/hadolint-action@v3.1.0
+        id: hadolint
+        with:
+          dockerfile: Dockerfile
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Build and push Docker image
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+          
+      - run: |
+          docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/20211354:v1
+          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/20211354:v1
+ 
+      - name: Deploy to Azure Container Instance (ACI)
+        uses: azure/aci-deploy@v1
+        with:
+          resource-group: ${{ secrets.RESOURCE_GROUP }}
+          dns-name-label: devops-20211354
+          image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/20211354:v1
+          registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+          registry-username: ${{ secrets.REGISTRY_USERNAME }}
+          registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+          name: 20211354
+          location: francecentral
+          ports: 8081
