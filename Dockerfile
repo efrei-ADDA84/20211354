@@ -14,6 +14,4 @@ RUN apk update && apk upgrade && pip install --no-cache-dir --requirement requir
 
 COPY apimeteo.py /app
 
-EXPOSE 5000
-
 CMD [ "python", "apimeteo.py" ]
